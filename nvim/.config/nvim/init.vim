@@ -2,7 +2,7 @@
 "{{{ Plugins  
 call plug#begin()
 Plug 'Yggdroot/indentLine'
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
+" Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
 Plug 'junegunn/goyo.vim'
 " Plug 'ap/vim-buftabline'
 Plug 'lilydjwg/colorizer'
@@ -17,7 +17,7 @@ call plug#end()
 
 "{{{ Plugin configs  
 " Use qutebrowser as Markdown viewer for markdown-preview-nvim
-let g:mkdp_browser = "qutebrowser"
+" let g:mkdp_browser = "qutebrowser"
 
 filetype plugin on
 " Dont hide markdown symbols. 
@@ -73,11 +73,6 @@ set laststatus=0
 
 " Display all matching results when we tab complete
 set wildmenu
-
-" Highlight the 81st charcter
-" I like to stay in the 80 character limit :)
-highlight OverLength ctermbg=magenta ctermfg=black
-match OverLength /\%81v\+/
 
 " Fold the code. I only use this in my config files to organize it.
 set foldmethod=marker
