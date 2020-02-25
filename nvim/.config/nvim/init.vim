@@ -113,19 +113,16 @@ nnoremap <silent> <Esc><Esc> <Esc>:nohlsearch<CR><Esc>
 
 
 "{{{ Tab  
-" Use spaces when using "<" and ">" to tab
-set expandtab
-
 " Use 4 spaces to represent tab
-set tabstop=4
+set tabstop=2
 
-set softtabstop=4
+set softtabstop=2
 
 " Copy indent from last line when starting new lineiletype indent on
 set autoindent
 
 " Number of spaces to use for auto indent
-set shiftwidth=4
+set shiftwidth=2
 
 filetype indent on
 set smartindent
@@ -206,36 +203,6 @@ endfunction
 
 
 "{{{ Key mappings  
-" Disable the arrow keys
-" In NORMAL mode
-nnoremap <up>    <nop>
-nnoremap <down>  <nop>
-nnoremap <left>  <nop>
-nnoremap <right> <nop>
-" In INSERT mode
-inoremap <up>    <nop>
-inoremap <down>  <nop>
-inoremap <left>  <nop>
-inoremap <right> <nop>
-" In VISUAL mode
-xnoremap <up>    <nop>
-xnoremap <down>  <nop>
-xnoremap <left>  <nop>
-xnoremap <right> <nop>
-
-" Scroll up
-nnoremap J <C-e>
-" Scroll down
-nnoremap K <C-y>
-
-" More intuitive way of...
-" going home
-nnoremap H 0
-vnoremap H 0
-" going to end of line
-vnoremap L $
-" and going to end of line and append
-nnoremap L A
 
 " Move up and down visual lines
 nnoremap j gj
@@ -253,15 +220,6 @@ vnoremap <silent> d d:call ClipboardYank()<cr>
 nnoremap <silent> p :call ClipboardPaste()<cr>p
 onoremap <silent> y y:call ClipboardYank()<cr>
 onoremap <silent> d d:call ClipboardYank()<cr>
-
-" Shift+. causes some trouble at times and it is not efficient
-" The first line here is just here so that I get used to
-" the new maping which the line after
-" The first line here is just here so that I get used to
-" the new maping which the line after.
-" By the way, I have a MacBook, so the keyboard is
-" a little different
-nnoremap , :
 
 " Moving between splits
 nnoremap <C-J> <C-W><C-J>
