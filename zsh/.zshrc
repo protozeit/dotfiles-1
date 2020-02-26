@@ -107,9 +107,23 @@ fi
 # This file has some important variables
 source $HOME/.profile
 
+# Set Proxy
+function setproxy() {
+    export {http,https,ftp,all}_proxy="http://10.23.201.11:3128"
+    export {HTTP,HTTPS,FTP,ALL}_PROXY="http://10.23.201.11:3128"
+    echo "Set proxy to 10.23.201.11:3128"
+}
+
+# Unset Proxy
+function unsetproxy() {
+    unset {http,https,ftp,all}_proxy
+    unset {HTTP,HTTPS,FTP,ALL}_PROXY
+    echo "Unset proxy"
+}
+
 # ZSH plugins
 source "$HOME/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-source "$HOME/.zsh/plugins/zsh-system-clipboard/zsh-system-clipboard.zsh"
+# source "$HOME/.zsh/plugins/zsh-system-clipboard/zsh-system-clipboard.zsh"
 
 # This is here to set my terminal background color
 # The script colors.sh uses this part of the bashrc
@@ -119,6 +133,3 @@ printf "\\e]11;${BG_COLOR}\\e\\\\"
 
 export KUNST_SIZE="250x250"
 export KUNST_MUSIC_DIR="$HOME/music/"
-
-bindkey -M vicmd 'H' beginning-of-line
-bindkey -M vicmd 'L' end-of-line

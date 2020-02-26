@@ -17,7 +17,6 @@ hide_edge_borders none
 # change borders
 bindsym $mod+u border none
 bindsym $mod+y border pixel 1
-bindsym $mod+n border normal
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -33,7 +32,7 @@ bindsym $mod+Return exec kitty
 bindsym $mod+w kill
 
 # start rofi (a program launcher)
-bindsym $mod+d exec rofi -show drun
+bindsym $mod+space exec rofi -show drun
 
 # change focus
 bindsym $mod+h focus left
@@ -59,7 +58,7 @@ bindsym $mod+e layout toggle split
 bindsym $mod+Shift+space floating toggle,move absolute position center
 
 # change focus between tiling / floating windows
-bindsym $mod+space focus mode_toggle
+bindsym $mod+d focus mode_toggle
 
 # focus the parent container
 bindsym $mod+a focus parent
@@ -81,11 +80,11 @@ bindsym $mod+Ctrl+m exec terminal -e 'alsamixer'
 # bindsym XF86MonBrightnessDown exec "xbacklight -dec 10; notify-send 'brightness down'"
 
 # Start Applications
-bindsym $mod+Ctrl+b exec terminal -e 'bmenu'
-bindsym $mod+i exec calamares_polkit
-bindsym $mod+Ctrl+a exec terminal -e 'setup'
-bindsym $mod+F2 exec chromium
-bindsym $mod+F3 exec pcmanfm
+#bindsym $mod+Ctrl+b exec terminal -e 'bmenu'
+#bindsym $mod+i exec calamares_polkit
+#bindsym $mod+Ctrl+a exec terminal -e 'setup'
+bindsym $mod+b exec chromium
+#bindsym $mod+F3 exec pcmanfm
 # bindsym $mod+F3 exec ranger
 bindsym $mod+Shift+F3 exec pcmanfm_pkexec
 bindsym $mod+F5 exec terminal -e 'mocp'
@@ -120,14 +119,14 @@ bindsym $mod+minus scratchpad show
 # something like: set $ws1 1:mail
 #                 set $ws2 2:
 
-set $ws1 1
-set $ws2 2
-set $ws3 3
-set $ws4 4
-set $ws5 5
-set $ws6 6
-set $ws7 7
-set $ws8 8
+set $ws1 I
+set $ws2 II
+set $ws3 III
+set $ws4 IV
+set $ws5 V
+set $ws6 VI
+set $ws7 VII
+set $ws8 VIII
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1
@@ -228,25 +227,26 @@ mode "$mode_system" {
 
 # Resize window
 # Mod1 = Alt
-bindsym $mod+Mod1+h resize shrink width 3 px or 3 ppt
-bindsym $mod+Mod1+j resize grow height 3 px or 3 ppt
-bindsym $mod+Mod1+k resize shrink height 3 px or 3 ppt
-bindsym $mod+Mod1+l resize grow width 3 px or 3 ppt
+bindsym $mod+Mod1+h resize shrink width 1 px or 1 ppt
+bindsym $mod+Mod1+j resize grow height 1 px or 1 ppt
+bindsym $mod+Mod1+k resize shrink height 1 px or 1 ppt
+bindsym $mod+Mod1+l resize grow width 1 px or 1 ppt
 
 # Lock screen
 bindsym $mod+9 exec --no-startup-id blurlock
 
 # Autostart applications
-exec --no-startup-id nitrogen --restore; sleep 1; picom -b
+#:w
+#exec --no-startup-id nitrogen --restore; sleep 1; picom -b
 exec --no-startup-id start_conky_live_maia
-# exec --no-startup-id blueman
+#exec --no-startup-id blueman
 exec --no-startup-id clipit
-exec --no-startup-id desktop-items
-exec --no-startup-id manjaro-hello
-exec --no-startup-id nm-applet
+#exec --no-startup-id desktop-items
+#exec --no-startup-id manjaro-hello
+#exec --no-startup-id nm-applet
 exec --no-startup-id pamac-tray
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-# exec_always --no-startup-id sbxkb
+#exec_always --no-startup-id sbxkb
 exec --no-startup-id xfce4-power-manager
 exec_always --no-startup-id ff-theme-util
 exec_always --no-startup-id setcursor
@@ -302,15 +302,15 @@ bar {
 	strip_workspace_numbers yes
 
     colors {
-        background #222D31
-        statusline #F9FAF9
+        background $term_background
+        statusline $term_foreground
         separator  #454947
 
 #                      border  backgr. text
-        focused_workspace  #F9FAF9 #16a085 #292F34
-        active_workspace   #595B5B #353836 #FDF6E3
-        inactive_workspace #595B5B #222D31 #EEE8D5
-        binding_mode       #16a085 #2C2C2C #F9FAF9
+        focused_workspace  #FF0000 #FF0000 $term_background
+        active_workspace   $term_background $term_background #FF0000
+        inactive_workspace $term_background $term_background #FF0000
+				binding_mode       #16a085 #2C2C2C #F9FAF9
         urgent_workspace   #16a085 #FDF6E3 #E5201D
     }
 }
@@ -320,9 +320,9 @@ bindsym $mod+m bar mode toggle
 
 # Theme colors
 # class                   border  backgr. text    indic.   child_border
-  client.focused          #556064 #556064 #80FFF9 #FDF6E3
-  client.focused_inactive #2F3D44 #2F3D44 #1ABC9C #454948
-  client.unfocused        #2F3D44 #2F3D44 #1ABC9C #454948
+  client.focused          #FF0000 #556064 #80FFF9 #FDF6E3
+  client.focused_inactive #FF0000 #2F3D44 #1ABC9C #454948
+  client.unfocused        #800000 #2F3D44 #1ABC9C #454948
   client.urgent           #CB4B16 #FDF6E3 #1ABC9C #268BD2
   client.placeholder      #000000 #0c0c0c #ffffff #000000 
 
@@ -333,8 +333,8 @@ bindsym $mod+m bar mode toggle
 #############################
 
 # Set inner/outer gaps
-gaps inner 14
-gaps outer -2
+gaps inner 10
+gaps outer 0
 
 # Additionally, you can issue commands with the following syntax. This is useful to bind keys to changing the gap size.
 # gaps inner|outer current|all set|plus|minus <px>
