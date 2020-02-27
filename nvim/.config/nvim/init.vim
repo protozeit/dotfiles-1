@@ -40,7 +40,7 @@ highlight PmenuSel ctermbg=darkgrey ctermfg=grey
 " Set syntex highlighting for i3 config
 aug i3config_ft_detection
   au!
-  au BufNewFile,BufRead ~/.config/i3/config set filetype=i3config
+  au BufNewFile,BufRead */i3/config set filetype=i3config
 aug end
 
 "autocmd FileType text :Goyo<CR>:setlocal showtabline=0<CR>
@@ -232,7 +232,7 @@ nnoremap fj zo]zk
 nnoremap fk zo[zj
 
 " Toggel folds with space bar
-nnoremap <space> za
+nnoremap <C-space> za
 
 " Some nice bindings for buffers
 " Create new file or edit an existing file
@@ -265,7 +265,7 @@ nnoremap <c-o> :Files<CR>
 inoremap <c-o> <Esc>:Files<CR>
 " {{{ Code snippets  
 " Jump to <++>, which is used in my mappings
-inoremap <Tab><Tab> <Esc>/<++><Enter>"_c4l
+inoremap <space><space> <Esc>/<++><Enter>"_c4l
 
 " Markdown
 autocmd FileType markdown inoremap ,1 # 

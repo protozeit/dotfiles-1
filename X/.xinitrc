@@ -43,4 +43,4 @@ exec i3 --shmlog-size 0
 # This removes the "X" cursor in BSPWM when you have your cursor on the desktop.
 #xsetroot -cursor_name left_ptr
 
-export LANG=en_GB.UTF-8
+export LANG=en_US.UTF-8

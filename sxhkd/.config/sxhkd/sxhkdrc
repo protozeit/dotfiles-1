@@ -1,136 +1,129 @@
-#super + shift + Escape
-#  bspc quit
 #
-## Restart bspwm
-#super + shift + w
-#  bspc wm -r
+# SXHKD module with WM-agnostic keys
 #
-### close app
-#super + q
-#	bspc node -c
+# Part of my dotfiles: https://gitlab.com/protesilaos/dotfiles
 #
-## Focus on window in direction
-#super + {h,j,k,l}
-#	bspc node -f {west,south,north,east}
+
+# Description
+# ===========
 #
-##	Send window to desktop
-#super + shift + {0-9}
-#  bspc node -d {0-9}
+# Partial configuration file for the Simple X Hotkey Daemon.  Meant to
+# work with `bspwm`.  This is part of my dotfiles, which are managed
+# with GNU Stow.  See https://gitlab.com/protesilaos/dotfiles
 #
-### fullscreen
-#super + f
-#	bspc desktop -l next
+# Note that `mod3' is the Hyper key, which I enable via Xmodmap (see my
+# bspwmrc and relevant configs).
+
+
+# Environment
+# -----------
+
+# I am using the prefix `mod3 + e' as a mnemonic for "environment".
 #
-## Toggle floating on and off
-#super + shift + space
-#  bspc node focused.tiled -t floating || bspc node focused.floating -t tiled
+# The following commands are:
 #
-## Swap window with direction
-#super + shift + {h,j,k,l}
-#	bspc node -s {west,south,north,east}
+# f == bspwm focus mode (my script)
+# s == reload sxhkd
+# p == reload melonpanel (my lemonbar script)
+# t == dmenu to choose Tempus theme
+# x == reload the Xresources file
+mod3 + e ; {f,s,p,t,x}
+    { \
+    bspwm_focus_mode, \
+    pkill -USR1 -x sxhkd && notify-send -i key_bindings "Reloaded key bindings", \
+    pkill -x melonpanel && melonpanel, \
+    tempusmenu, \
+    xrdb -I "$HOME" -merge "$HOME"/.Xresources \
+    }
+
+# Invoke the session management menu (log out, lock, reboot, shutdown).
+ctrl + alt + Delete
+     poweroptionsmenu
+
+# Keyboard layout
+# ---------------
+# We can set the keyboard layouts, as well as the toggle directly via
+# `setxkbmap`.  Example of what I used to run:
 #
-## Focus on desktop
-#super + {0-9}
-#	bspc desktop -f {0-9}
+#	setxkbmap -layout 'us,gr' -option 'grp:alt_caps_toggle'
 #
-## Expand a window by moving one of its side outward
-#ctrl + alt + {h,j,k,l}
-#	bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
-#  #xdo resize {-w -20, -h +20, -h -20, -w +20}
+# However, doing so means losing out on the possibility to easily find
+# out the current/active layout from a script: X knows about "us,gr" in
+# that order, not which one is currently typing.  As such, in `bspwmrc`
+# I simply autostart `setxkbmap -layout 'us'` without defining the
+# second layout and a toggle.  The toggle is set below.  With the
+# difference being that it invokes a custom script that switches between
+# the us,gr layout.  All this is done to be able to get the active
+# keyboard layout and print its name to my system panel (custom lemonbar
+# called "melonpanel").
 #
-## Contract a window by moving one of its side inward
-#ctrl + super + {h,j,k,l}
-#	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
-#  #xdo resize {-w +20, -h -20, -h +20, -w -20}
-#
-## Move a floating window
-#ctrl + alt + {Left,Right,Up,Down}
-#  xdo move {-x -20, -x +20, -y -20, -y +20}
+# The key chord is based on the Emacs function `toggle-input-method',
+# which is bound to C-\
+mod3 + backslash
+	toggle_kbd_layout
+
+# Main programs
+# -------------
+
+# Use Xterm as a standalone tool or with Tmux (with Shift).
+mod3 + {_, shift + } Return
+	{xterm,xterm -e tmux new-session -A -s 'Default'}
+
+# Show the desired rofi views.
+mod3 + {x,b}
+     rofi -show {drun,window}
+
+# Bring up a rofi interface for `pass' (the superb UNIX password
+# manager).
+mod3 + p
+     passmenu
+
+# Miscellaneous tools and media keys
+# ----------------------------------
+
+# Screenshots (requires `scrot`).  First one is for the focused window.
+# The other is of the entire X session (including all active monitors).
+# Note that `scrot` also has an interactive mode that I do not use.
+Print
+	scrot -u -z '%Y-%m-%d_%H:%M:%S_$wx$h$n.png' -e 'mv $f ~/Desktop' \
+    && notify-send -i gnome-screenshot "Window view screenshot" "Saved image to Desktop"
+mod3 + Print
+	scrot -m -z '%Y-%m-%d_%H:%M:%S_$wx$h.png' -e 'mv $f ~/Desktop' \
+    && notify-send -i gnome-screenshot "Screen view screenshot" "Saved image to Desktop"
+
+# Control the laptop's screen brightness (requires `xbacklight`).
+XF86MonBrightness{Down,Up}
+	xbacklight {-dec 15,-inc 15}
 
 
-### Applications
+# Specifically for `bongo', my Emacs music manager.
+XF86Audio{Play,Prev,Next}
+	emacsclient -e { \
+    "(bongo-pause/resume)", \
+    "(bongo-previous)", \
+    "(bongo-next)" \
+    }
 
-# Launch terminal
-super + Return
-  kitty
+# Control the [last] currently active player.
+mod3 + XF86Audio{Play,Prev,Next}
+    playerctl {play-pause,previous,next}
 
-# Launch my program launcher, rofi
-super + d
-  rofi -show drun
+# Speaker/output volume.  Requires `amixer` and dedicated keys.
+XF86Audio{Mute,LowerVolume,RaiseVolume}
+	amixer set Master {toggle,5%-,5%+}
 
-# Pulse Audio controls
-# I have set it so that it if the volume is set to mute, and I try to increase or decrease
-# the volume, it will unmute and then increase or decrease. Because before, it would stay mute
-# and just increase the volume but it would still stay mute. Yes, its strange.
-XF86AudioRaiseVolume
-  bash $HOME/bin/keybinded/volumeControl.sh up
-XF86AudioLowerVolume
-  bash $HOME/bin/keybinded/volumeControl.sh down
-XF86AudioMute
-  bash $HOME/bin/keybinded/volumeControl.sh mute
-
-# Change brightness using xbacklight
-# Check the link below to fix brightness on MacBooks
-# https://medium.com/@philpl/ubuntu-14-10-running-on-my-macbook-18991a697ae0
-XF86MonBrightnessUp
-  bash $HOME/bin/keybinded/brightness/brightnessControl.sh up
-XF86MonBrightnessDown
-  bash $HOME/bin/keybinded/brightness/brightnessControl.sh down
-
-# Launch clearine logout menu
-super + shift + s
-  clearine
-
-# Locks my screen
-super + x
- # mpc pause && pauseallmpv && bash $HOME/bin/keybinded/lock
-# bash $HOME/bin/keybinded/lock
-  lock
-
-# Music control
-XF86AudioNext
-  mpc next && bash $HOME/bin/keybinded/change_music.sh 
-XF86AudioPrev
-  mpc prev && bash $HOME/bin/keybinded/change_music.sh
-XF86AudioPlay
-  mpc toggle
-XF86AudioStop
-  mpc stop
-
-# Screenshot
-super + aring 
-  bash $HOME/bin/keybinded/screenshot.sh
-super + oslash
-  $HOME/bin/keybinded/screenshot.sh -s
-
-# A very cool emoji and unicode character picker using rofi
-super + shift + d
-  bash $HOME/.config/rofi/scripts/picker.sh
-
-# Open up ranger
-super + shift + Return
-  python3 $HOME/bin/keybinded/ranger.py
-
-# Keyboard backlight for Macbook
-XF86KbdBrightnessDown
-  kbdlight down
-XF86KbdBrightnessUp
-  kbdlight up
-
-# Pop any video from the browser out into mpv
-super + p
-  bash $HOME/bin/keybinded/pop_mpv.sh
-
-# Flash the current window I am in
-super + n
-  flash_window
-
-# The best color picker ;)
-super + shift + f
-  farge --image-viewer mpv
-
-# Mailbox
-super + m
-  kitty -e aerc
+# Microphone/input volume.  Same requirements as previous definition.
+XF86AudioMicMute
+	amixer set Capture toggle
+mod3 + XF86Audio{Mute,LowerVolume,RaiseVolume}
+	amixer set Capture {toggle,5%-,5%+}
 
 
+
+# TODO 2019-11-01: These will need to be reviewed once all key bindings
+# are rewritten.  Perhaps it would be nice to produce something that is
+# interactive and searchable…
+# # Bring up the help text for common keybindings
+# mod3 + {F1,Home}
+# 	xterm -class "my_float_window" \
+# 	-geometry '100x30' -e less "$HOME/.config/sxhkd/cheatsheet_sxhkdrc.txt"

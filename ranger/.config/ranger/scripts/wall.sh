@@ -16,12 +16,11 @@ rm $path*
 cp "$1" "$path"
 
 # Set the wallpaper using feh
-setroot -z $path*
+feh --no-fehbg --bg-fill $path*
 
 # Change the background color of some programs
-bash $HOME/.config/ranger/scripts/color.sh
+bash $HOME/bin/color.sh
 
 # Updates the image for betterlockscreen
 betterlockscreen -u $path* &> /dev/null
 dunstify "ranger" "Image set as wallpaper and lockscreen"
-
