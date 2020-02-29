@@ -1,0 +1,29 @@
+alias ll='ls -al'
+alias la='ls -A'
+alias l='ls -CF'
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+
+alias diff="diff --color=auto"
+alias ccat="highlight --out-format=ansi"
+alias vrc="vim ~/.vimrc"
+alias zrc="vim ~/.zshrc"
+alias bsprc="vim ~/.config/bspwm/bspwmrc"
+alias hkrc="vim ~/.config/sxhkd/sxhkdrc"
+
+alias tmux="TERM=screen-256color-bce tmux"
+alias rb2="rabin2"
+alias mkd="mkdir -pv"
+
+alias r="ranger"
+
+alias yt="youtube-dl -ic"
+alias yta="youtube-dl -icx"
+
+if [ -z ${http_proxy} ]; then
+        alias sp='sudo pacman'
+else
+        alias sp='sudo -E pacman'
+fi

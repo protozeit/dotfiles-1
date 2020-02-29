@@ -184,7 +184,8 @@ for_window [title="MuseScore: Play Panel"] floating enable
 for_window [class="Nitrogen"] floating enable sticky enable border normal
 for_window [class="Oblogout"] fullscreen enable
 for_window [class="octopi"] floating enable
-for_window [title="About Pale Moon"] floating enable
+for_window [class="mpv"] floating enable
+for_window [class="Spotify"] floating enable
 for_window [class="Pamac-manager"] floating enable
 for_window [class="Pamac-updater"] floating enable
 for_window [class="Pavucontrol"] floating enable
@@ -264,6 +265,8 @@ exec_always --no-startup-id libinput-gestures
 #exec_always --no-startup-id bash $HOME/bin/startup/*.sh
 
 exec --no-startup-id xautolock -time 10 -locker 'betterlockscreen -l dim -t "Warning! Hacking ahead."'
+
+exec --no-startup-id xautolock -time 45 -locker 'betterlockscreen -s dim -t "Warning! Hacking ahead."'
 
 # Color palette used for the terminal ( ~/.extend.Xresources file )
 # Colors are gathered based on the documentation:
