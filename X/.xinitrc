@@ -37,8 +37,8 @@ if [ -d /etc/X11/xinit/xinitrc.d ] ; then
 fi
 
 exec i3 --shmlog-size 0
-#sxhkd &
-#exec bspwm
+# sxhkd &
+# exec bspwm
 
 # This removes the "X" cursor in BSPWM when you have your cursor on the desktop.
 #xsetroot -cursor_name left_ptr
